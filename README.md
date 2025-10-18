@@ -5,8 +5,9 @@ This research has been accepted at the ***International Conference on Neural Inf
 ## Abstract
 Accurate segmentation of nuclei in histopathology images is critical for understanding tissue morphology and aiding in disease diagnosis, particularly cancer. However, this task is challenging due to the high variability in staining and diverse morphological features. In this study, we propose a novel approach that integrates a graph-based attention mechanism into the U-Net architecture. Our method utilizes astate-of-the-art encoder backbone and introduces a Pairwise Node Similarity Attention Module (PNSAM), which computes the similarity between feature channels using a kernel function that inherently applies a dot product to capture spatial information. This module enhances the relationships between local and non-local feature vectors within a feature map obtained from multiple encoder layers, forming a graph attention map. Additionally, we incorporate a channel pruning mechanism that leverages predefined statistical knowledge to select important individual channels for graph attention map creation. The resulting graph attention map enhances encoder features for skip connections. Furthermore, we combine activated features from multiple trainable PNSAM heads to generate a more diverse and robust feature map. We evaluated our novel architecture on three widely recognized datasets: Monuseg, TNBC, and CryoNuSeg. 
 
-![Architecrure!](assests/main-diagram.png)
+![Architecture!](assests/main-diagram.png)
 
+![Pairwise Node Similarity Attention Module (PNSAM)](assests/pnsam.png)
 
 ## Project Structure
 
@@ -117,6 +118,12 @@ To train the model and reproduce the results, follow these steps:
 ## Dataset Preparation
 
 Ensure that the datasets are prepared according to the expected directory structure:
+
+## Why Pruning is Helpful 
+- Many channels contains all zero or very less information. We quantitatively calcualted the filter wise moments (mean, variance, skewness, kurtosis) and observed that many channels have very low variance and near zero mean. These channels do not contribute much to the learning process and can introduce noise. By pruning these less informative channels, we can reduce the model complexity, improve training efficiency, and potentially enhance segmentation performance by focusing on the most relevant features.
+![Channel Pruning based on 2nd order Moments](assests/variances.png)
+![After pruning vs Before pruning](assests/pruning_comparison.png)
+- It helped to reduce overestimations and underestimations while calculating the graph attention values for each pixel.
 
 ## Citation
 
