@@ -7,6 +7,7 @@ Accurate segmentation of nuclei in histopathology images is critical for underst
 
 ![Architecture!](assests/main-diagram.png)
 
+#### Pairwise Node Similarity Attention Module (PNSAM)
 ![Pairwise Node Similarity Attention Module (PNSAM)](assests/pnsam.png)
 
 ## Project Structure
@@ -121,7 +122,13 @@ Ensure that the datasets are prepared according to the expected directory struct
 
 ## Why Pruning is Helpful 
 - Many channels contains all zero or very less information. We quantitatively calcualted the filter wise moments (mean, variance, skewness, kurtosis) and observed that many channels have very low variance and near zero mean. These channels do not contribute much to the learning process and can introduce noise. By pruning these less informative channels, we can reduce the model complexity, improve training efficiency, and potentially enhance segmentation performance by focusing on the most relevant features.
+
+#### Channel Pruning based on 2nd order Moments
+
 ![Channel Pruning based on 2nd order Moments](assests/variances.png)
+
+#### After pruning vs Before pruning
+
 ![After pruning vs Before pruning](assests/pruning_comparison.png)
 - It helped to reduce overestimations and underestimations while calculating the graph attention values for each pixel.
 
